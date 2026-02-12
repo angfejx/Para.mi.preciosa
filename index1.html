@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ari 💖 Te Amo Demasiado</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{
+    background:black;
+    color:white;
+    overflow-x:hidden;
+    text-align:center;
+}
+
+/* LOGIN */
+#login{
+    position:fixed;
+    width:100%;
+    height:100%;
+    background:linear-gradient(135deg,#ff4e8b,#ff9ecf);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    z-index:9999;
+}
+#login input{
+    padding:10px;
+    border:none;
+    border-radius:20px;
+    margin-top:10px;
+}
+#login button{
+    margin-top:10px;
+    padding:10px 20px;
+    border:none;
+    border-radius:20px;
+    cursor:pointer;
+}
+
+.star{
+    position:fixed;
+    width:2px;
+    height:2px;
+    background:white;
+    animation:twinkle 2s infinite alternate;
+}
+@keyframes twinkle{
+    from{opacity:0.2;}
+    to{opacity:1;}
+}
+
+section{padding:80px 20px;}
+
+.neon{
+    font-size:3rem;
+    font-weight:800;
+    text-shadow:0 0 10px #ff4e8b,0 0 20px #ff4e8b,0 0 40px #ff4e8b;
+    animation:glow 1.5s infinite alternate;
+}
+@keyframes glow{
+    from{text-shadow:0 0 10px #ff4e8b;}
+    to{text-shadow:0 0 30px #ff9ecf;}
+}
+
+.romantic{font-family:'Dancing Script',cursive;font-size:2rem;}
+
+.galeria{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    flex-wrap:wrap;
+}
+.galeria img{
+    width:250px;
+    height:300px;
+    object-fit:cover;
+    border-radius:20px;
+    transition:0.5s;
+}
+.galeria img:hover{transform:scale(1.1);}
+
+.carta{
+    max-width:600px;
+    margin:auto;
+    background:white;
+    color:#ff4e8b;
+    padding:40px;
+    border-radius:20px;
+    min-height:150px;
+}
+
+.anillo{font-size:80px;cursor:pointer;}
+
+canvas{
+    position:fixed;
+    top:0;
+    left:0;
+    pointer-events:none;
+}
+
+#gameArea{
+    position:relative;
+    height:300px;
+    border:2px solid white;
+    margin-top:20px;
+    overflow:hidden;
+}
+.heartGame{
+    position:absolute;
+    font-size:30px;
+    cursor:pointer;
+}
+
+/* MENSAJE FINAL */
+#finalMessage{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.9);
+    color:white;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    padding:30px;
+    text-align:center;
+    z-index:99999;
+}
+</style>
+</head>
+<body>
+
+<div id="login">
+    <h2>💖 Acceso Secreto 💖</h2>
+    <p>Ingresa nuestra fecha especial 😏</p>
+    <input type="password" id="pass" placeholder="16 de marzo">
+    <button onclick="checkPassword()">Entrar</button>
+</div>
+
+<div id="finalMessage"></div>
+
+<audio id="music" loop>
+<source src="musica.mp3" type="audio/mp3">
+</audio>
+
+<canvas id="fireworks"></canvas>
+
+<section>
+    <div class="neon">Ari te amo demasiado 💖</div>
+    <div class="romantic">Desde el 16 de marzo de 2025 ❤️</div>
+    <div id="contador"></div>
+</section>
+
+<section>
+    <h2>📸 Nuestros Recuerdos</h2>
+    <div class="galeria">
+        <img src="foto1.jpg">
+        <img src="foto2.jpg">
+        <img src="foto3.jpg">
+    </div>
+</section>
+
+<section>
+    <h2>💌 Carta Para Ti</h2>
+    <div class="carta" id="carta"></div>
+</section>
+
+<section>
+    <h2>💍 Mi Promesa</h2>
+    <div class="anillo" onclick="fuegos()">💍</div>
+</section>
+
+<section>
+    <h2>🎮 Atrapa el Corazón</h2>
+    <p>Puntos: <span id="score">0</span></p>
+    <div id="gameArea"></div>
+</section>
+
+<script>
+const PASSWORD="16 de marzo";
+
+/* LOGIN */
+function checkPassword(){
+    if(document.getElementById("pass").value.toLowerCase()===PASSWORD){
+        document.getElementById("login").style.display="none";
+        document.getElementById("music").play();
+    }else alert("Contraseña incorrecta 😜");
+}
+
+/* ESTRELLAS */
+for(let i=0;i<100;i++){
+    let star=document.createElement("div");
+    star.className="star";
+    star.style.top=Math.random()*100+"%";
+    star.style.left=Math.random()*100+"%";
+    document.body.appendChild(star);
+}
+
+/* CONTADOR */
+const FECHA_INICIO=new Date("2025-03-16");
+function actualizarContador(){
+    const ahora=new Date();
+    const diff=ahora-FECHA_INICIO;
+    const dias=Math.floor(diff/(1000*60*60*24));
+    const horas=Math.floor((diff/(1000*60*60))%24);
+    const minutos=Math.floor((diff/(1000*60))%60);
+    document.getElementById("contador").innerHTML=
+    "Juntos por "+dias+" días, "+horas+" horas y "+minutos+" minutos 💖";
+}
+setInterval(actualizarContador,1000);
+
+/* CARTA */
+const texto=`Mi chaparrita hermosa preciosa,
+Desde el 16 de marzo de 2025 mi vida cambió completamente.
+Eres la mejor novia del mundo mundial.
+Siempre voy a luchar por nuestro amor.
+Te juro que vamos a hacer lo posible para cumplir todo lo que dijimos y que siempre voy a luhar por tu amor y nunca te voy a dejar ir de mi vida.
+Mi vida, te amo demasiado 💖`;
+let i=0;
+function escribir(){
+    if(i<texto.length){
+        document.getElementById("carta").innerHTML+=texto.charAt(i);
+        i++;
+        setTimeout(escribir,50);
+    }
+}
+escribir();
+
+/* FUEGOS */
+const canvas=document.getElementById("fireworks");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+let particles=[];
+function fuegos(){
+    for(let i=0;i<150;i++){
+        particles.push({
+            x:canvas.width/2,
+            y:canvas.height/2,
+            dx:(Math.random()-0.5)*10,
+            dy:(Math.random()-0.5)*10,
+            life:100
+        });
+    }
+}
+function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach((p,index)=>{
+        p.x+=p.dx;
+        p.y+=p.dy;
+        p.life--;
+        ctx.fillStyle="pink";
+        ctx.fillRect(p.x,p.y,3,3);
+        if(p.life<=0)particles.splice(index,1);
+    });
+    requestAnimationFrame(animate);
+}
+animate();
+
+/* MINI JUEGO */
+let score=0;
+function spawnHeart(){
+    const heart=document.createElement("div");
+    heart.className="heartGame";
+    heart.innerHTML="💖";
+    heart.style.top=Math.random()*250+"px";
+    heart.style.left=Math.random()*90+"%";
+    heart.onclick=function(){
+        score++;
+        document.getElementById("score").innerText=score;
+        heart.remove();
+
+        if(score===16){
+            let intento=prompt("Ingresa la fecha especial para desbloquear el mensaje 💖");
+            if(intento && intento.toLowerCase()===PASSWORD){
+                mostrarMensajeFinal();
+            }else{
+                alert("Contraseña incorrecta 😜");
+            }
+        }
+    }
+    document.getElementById("gameArea").appendChild(heart);
+    setTimeout(()=>heart.remove(),2000);
+}
+setInterval(spawnHeart,1000);
+
+function mostrarMensajeFinal(){
+    const final=document.getElementById("finalMessage");
+    final.style.display="flex";
+    final.innerHTML=`
+    <h1>💖 Ari 💖</h1>
+    <h2>Eres la mejor novia del mundo mundial 🌎</h2>
+    <p>Siempre voy a luchar por nuestro amor.</p>
+    <p>Te juro que vamos a hacer lo posible para cumplir todo lo que dijimos.</p>
+    <h2>Te amo demasiado 💍❤️</h2>
+    `;
+}
+</script>
+
+</body>
+</html>
